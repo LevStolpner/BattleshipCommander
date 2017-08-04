@@ -1,15 +1,16 @@
 package main.java;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Battlefield {
 
     private int battlefieldSize;
     private List<Ship> ships;
-    private List<Position> shots;
 
     public Battlefield(int battlefieldSize) {
         this.battlefieldSize = battlefieldSize;
+        this.ships = new ArrayList<>();
     }
 
     public void placeShip(Ship ship) {
@@ -37,7 +38,7 @@ public class Battlefield {
     }
 
     private boolean checkBoxOverlapping(Position[] box1, Position[] box2) {
-        return box1[0].getX() <= box2[1].getX() && box1[1].getX() >= box2[0].getX() &&
-                box1[0].getY() <= box2[1].getY() && box1[1].getY() >= box2[0].getY();
+        return box1[0].getX() < box2[1].getX() && box1[1].getX() > box2[0].getX() &&
+                box1[0].getY() < box2[1].getY() && box1[1].getY() > box2[0].getY();
     }
 }

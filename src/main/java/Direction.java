@@ -1,4 +1,4 @@
-package main.java.model;
+package main.java;
 
 public enum Direction {
     Vertical, Horizontal

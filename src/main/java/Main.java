@@ -1,8 +1,7 @@
 package main.java;
 
-import main.java.model.Battlefield;
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main {
@@ -13,5 +12,14 @@ public class Main {
         List<Battlefield> battlefields = new ArrayList<>(2);
         battlefields.add(new Battlefield(BATTLEFIELD_SIZE));
         battlefields.add(new Battlefield(BATTLEFIELD_SIZE));
+    }
+
+    public static ShipStock createShipStock() {
+        HashMap<Integer, Integer> ships = new HashMap<>();
+        ships.put(4, 1);
+        ships.put(3, 2);
+        ships.put(2, 3);
+        ships.put(1, 4);
+        return new ShipStock(ships);
     }
 }

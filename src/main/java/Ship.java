@@ -1,6 +1,4 @@
-package main.java.model;
-
-import java.awt.*;
+package main.java;
 
 public class Ship {
 
@@ -33,15 +31,11 @@ public class Ship {
         return length;
     }
 
-    public void setLength(int length) {
-        this.length = length;
-    }
-
     public Position[] getShipBox() {
         return shipBox;
     }
 
-    public void setShipBox() {
+    public void calculateShipBox() {
         if (this.position == null || this.direction == null) return;
         Position[] result = new Position[2];
         result[0] = new Position(this.position.getX() - 1, this.position.getY() - 1);

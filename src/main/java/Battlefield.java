@@ -1,7 +1,5 @@
-package main.java.model;
+package main.java;
 
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Battlefield {
@@ -15,13 +13,9 @@ public class Battlefield {
     }
 
     public void placeShip(Ship ship) {
-        if (isShipPlaceable(ship)) {
+        if (checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
             ships.add(ship);
         }
-    }
-
-    private boolean isShipPlaceable(Ship ship) {
-        return checkShipCoordinates(ship) && isPlaceAvailable(ship);
     }
 
     private boolean checkShipCoordinates(Ship ship) {
@@ -33,7 +27,7 @@ public class Battlefield {
     }
 
     private boolean isPlaceAvailable(Ship newShip) {
-        newShip.setShipBox();
+        newShip.calculateShipBox();
 
         for (Ship placedShip : ships) {
             Position[] placedShipBox = placedShip.getShipBox();

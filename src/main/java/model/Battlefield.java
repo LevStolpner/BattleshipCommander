@@ -1,5 +1,7 @@
 package main.java.model;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Battlefield {
@@ -12,11 +14,14 @@ public class Battlefield {
         this.battlefieldSize = battlefieldSize;
     }
 
-    //TODO check ship intersections
     public void placeShip(Ship ship) {
-        if (checkShipCoordinates(ship) && checkIntersectionsAndNearbyShips(ship)) {
+        if (isShipPlaceable(ship)) {
             ships.add(ship);
         }
+    }
+
+    private boolean isShipPlaceable(Ship ship) {
+        return checkShipCoordinates(ship) && isPlaceAvailable(ship);
     }
 
     private boolean checkShipCoordinates(Ship ship) {
@@ -27,29 +32,18 @@ public class Battlefield {
                 pos.getY() < battlefieldSize && pos.getX() + ship.getLength() <= battlefieldSize;
     }
 
-    //TODO check nearby ships (more than 1 cell between ships)
-    private boolean checkIntersectionsAndNearbyShips(Ship newShip) {
-        for (Ship placedShip : ships) {
-            int placedX = placedShip.getPosition().getX();
-            int placedY = placedShip.getPosition().getY();
-            int newX = newShip.getPosition().getX();
-            int newY = newShip.getPosition().getY();
+    private boolean isPlaceAvailable(Ship newShip) {
+        newShip.setShipBox();
 
-            if (placedShip.getDirection() == newShip.getDirection()) {
-                if (newShip.getDirection() == Direction.Vertical && placedX == newX ||
-                        newShip.getDirection() == Direction.Horizontal && placedY == newY) {
-                    return false;
-                }
-            } else {
-                if ((placedShip.getDirection() == Direction.Vertical &&
-                        placedY <= newY && placedY + placedShip.getLength() >= newY &&
-                        placedX >= newX && placedX <= newX + newShip.getLength()) ||
-                    (placedShip.getDirection() == Direction.Horizontal &&
-                            placedX <= newX && placedX + placedShip.getLength() >= newX &&
-                            placedY >= newY && placedY <= newY + newShip.getLength()))
-                    return false;
-            }
+        for (Ship placedShip : ships) {
+            Position[] placedShipBox = placedShip.getShipBox();
+            if (checkBoxOverlapping(newShip.getShipBox(), placedShipBox)) return false;
         }
         return true;
+    }
+
+    private boolean checkBoxOverlapping(Position[] box1, Position[] box2) {
+        return box1[0].getX() <= box2[1].getX() && box1[1].getX() >= box2[0].getX() &&
+                box1[0].getY() <= box2[1].getY() && box1[1].getY() >= box2[0].getY();
     }
 }

@@ -40,9 +40,9 @@ public class Ship {
         Position[] result = new Position[2];
         result[0] = new Position(this.position.getX() - 1, this.position.getY() - 1);
         if (this.direction == Direction.Vertical) {
-            result[1] = new Position(this.position.getX() + 1, this.position.getY() + this.length + 1);
+            result[1] = new Position(this.position.getX() + 1, this.position.getY() + this.length);
         } else {
-            result[1] = new Position(this.position.getX() + this.length + 1, this.position.getY() + 1);
+            result[1] = new Position(this.position.getX() + this.length, this.position.getY() + 1);
         }
         this.shipBox = result;
     }

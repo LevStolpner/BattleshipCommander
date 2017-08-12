@@ -1,14 +1,32 @@
 package main.java;
 
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board {
+public class Board extends Parent {
 
+    private HBox rows = new HBox();
     private final int size = 10;
     private List<Ship> ships;
 
-    public Board() {
+    public Board(EventHandler<? super MouseEvent> handler) {
+        for (int x = 0; x < size; x++) {
+            VBox row = new VBox();
+            for (int y = 0; y < size; y++) {
+                Cell c = new Cell(x, y, this);
+                c.setOnMouseClicked(handler);
+                row.getChildren().add(c);
+            }
+            rows.getChildren().add(row);
+        }
+        getChildren().add(rows);
+
         this.ships = new ArrayList<>();
     }
 

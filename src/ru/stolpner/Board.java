@@ -1,10 +1,11 @@
-package main.java;
+package ru.stolpner;
 
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,22 @@ public class Board extends Parent {
 
     public void placeShip(Ship ship) {
         if (checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
+            if (ship.isVertical()) {
+                for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
+                    Cell cell = getCell(ship.getX(), i);
+                    cell.setShip(ship);
+                    cell.setFill(Color.WHITE);
+                    cell.setStroke(Color.GREEN);
+                }
+            } else {
+                for (int i = ship.getX(); i < ship.getX() + ship.getLength(); i++) {
+                    Cell cell = getCell(i, ship.getY());
+                    cell.setShip(ship);
+                    cell.setFill(Color.WHITE);
+                    cell.setStroke(Color.GREEN);
+                }
+            }
+
             ships.add(ship);
         }
     }
@@ -72,5 +89,9 @@ public class Board extends Parent {
         //checking overlapping of ships or areas around them
         return firstBorders[0] < secondBorders[2] && firstBorders[2] > secondBorders[0] &&
                 firstBorders[1] < secondBorders[3] && firstBorders[3] > secondBorders[1];
+    }
+
+    private Cell getCell(int x, int y) {
+        return (Cell)((VBox)rows.getChildren().get(x)).getChildren().get(y);
     }
 }

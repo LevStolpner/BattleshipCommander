@@ -16,6 +16,7 @@ import java.util.List;
 public class ControlPanel extends Parent {
 
     private VBox shipModels = new VBox();
+    private int selectedShipModel = 0;
 
     public ControlPanel() {
 
@@ -39,7 +40,8 @@ public class ControlPanel extends Parent {
     }
 
     private void selectShipModel(int shipModel) {
-        clearSelections();
+        clearSelection();
+        selectedShipModel = shipModel;
 
         List<Node> selectedShipNodes = ((HBox) shipModels.getChildren().get(shipModel)).getChildren();
         for (int i = 0; i < 4 - shipModel; i++) {
@@ -48,13 +50,11 @@ public class ControlPanel extends Parent {
         }
     }
 
-    private void clearSelections() {
-        for (int i = 0; i < 4; i++) {
-            List<Node> selectedShipNodes = ((HBox) shipModels.getChildren().get(i)).getChildren();
-            for (int j = 0; j < 4 - i; j++) {
-                ControlPanelCell c = (ControlPanelCell) selectedShipNodes.get(j + 1);      //cause Text is 0 element in row
-                c.resetColors();
-            }
+    private void clearSelection() {
+        List<Node> selectedShipNodes = ((HBox) shipModels.getChildren().get(selectedShipModel)).getChildren();
+        for (int j = 0; j < 4 - selectedShipModel; j++) {
+            ControlPanelCell c = (ControlPanelCell) selectedShipNodes.get(j + 1);      //cause Text is 0 element in row
+            c.resetColors();
         }
     }
 }

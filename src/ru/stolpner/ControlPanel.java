@@ -13,7 +13,7 @@ import javafx.scene.text.Text;
 
 import java.util.List;
 
-public class ControlPanel extends Parent {
+class ControlPanel extends Parent {
 
     private VBox shipModels = new VBox();
     private int selectedShipModel = 0;

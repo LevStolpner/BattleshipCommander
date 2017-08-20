@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Board extends Parent {
+class Board extends Parent {
 
     private HBox rows = new HBox();
     private final int size = 10;

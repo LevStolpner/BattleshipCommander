@@ -1,6 +1,6 @@
 package ru.stolpner;
 
-public class Ship {
+class Ship {
 
     private int x = -1;
     private int y = -1;

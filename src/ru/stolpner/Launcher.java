@@ -16,6 +16,7 @@ public class Launcher extends Application {
     private ControlPanel controlPanel;
     private Board playerBoard;
 
+    //TODO: 1)finish controls and ship placing 2) change colors 3) work on hits
     public static void main(String[] args) {
         launch(args);
     }
@@ -52,7 +53,7 @@ public class Launcher extends Application {
         playerBoard = new Board(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 BoardCell cell = (BoardCell) event.getSource();
-                playerBoard.placeShip(new Ship(cell.x, cell.y, true, 2));
+                playerBoard.placeShip(new Ship(cell.x, cell.y, true, controlPanel.getSelectedShipLength()));
             }
         });
 

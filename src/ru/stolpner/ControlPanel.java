@@ -37,6 +37,11 @@ class ControlPanel extends Parent {
             shipModels.getChildren().add(shipModel);
         }
         getChildren().add(shipModels);
+        selectShipModel(0);
+    }
+
+    public int getSelectedShipLength() {
+        return 4 - selectedShipModel;
     }
 
     private void selectShipModel(int shipModel) {

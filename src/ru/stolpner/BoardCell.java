@@ -3,13 +3,13 @@ package ru.stolpner;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-class Cell extends Rectangle {
+class BoardCell extends Rectangle {
 
     private Board board;
     private Ship ship;
     int x, y;
 
-    Cell(int x, int y, Board board) {
+    BoardCell(int x, int y, Board board) {
         super(30, 30);
         this.x = x;
         this.y = y;

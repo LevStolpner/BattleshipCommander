@@ -20,7 +20,7 @@ public class Board extends Parent {
         for (int x = 0; x < size; x++) {
             VBox row = new VBox();
             for (int y = 0; y < size; y++) {
-                Cell c = new Cell(x, y, this);
+                BoardCell c = new BoardCell(x, y, this);
                 c.setOnMouseClicked(handler);
                 row.getChildren().add(c);
             }
@@ -51,14 +51,14 @@ public class Board extends Parent {
         if (checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
             if (ship.isVertical()) {
                 for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
-                    Cell cell = getCell(ship.getX(), i);
+                    BoardCell cell = getCell(ship.getX(), i);
                     cell.setShip(ship);
                     cell.setFill(Color.WHITE);
                     cell.setStroke(Color.GREEN);
                 }
             } else {
                 for (int i = ship.getX(); i < ship.getX() + ship.getLength(); i++) {
-                    Cell cell = getCell(i, ship.getY());
+                    BoardCell cell = getCell(i, ship.getY());
                     cell.setShip(ship);
                     cell.setFill(Color.WHITE);
                     cell.setStroke(Color.GREEN);
@@ -91,7 +91,7 @@ public class Board extends Parent {
                 firstBorders[1] < secondBorders[3] && firstBorders[3] > secondBorders[1];
     }
 
-    private Cell getCell(int x, int y) {
-        return (Cell)((VBox)rows.getChildren().get(x)).getChildren().get(y);
+    private BoardCell getCell(int x, int y) {
+        return (BoardCell)((VBox)rows.getChildren().get(x)).getChildren().get(y);
     }
 }

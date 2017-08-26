@@ -1,27 +1,43 @@
 package ru.stolpner;
 
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-class Board extends Parent {
+public class Board extends Parent {
+
+    private final int size = 10;
 
     private HBox rows = new HBox();
-    private final int size = 10;
     private List<Ship> ships;
+    private HashMap<Integer, Integer> shipsOfLengthPlaced = new HashMap<>(4);
+    private ControlPanel controls;
 
-    public Board(EventHandler<? super MouseEvent> handler) {
+    public Board(boolean isPlayer, ControlPanel controls) {
+        this.controls = controls;
+        shipsOfLengthPlaced.put(1, 0);
+        shipsOfLengthPlaced.put(2, 0);
+        shipsOfLengthPlaced.put(3, 0);
+        shipsOfLengthPlaced.put(4, 0);
+
         for (int x = 0; x < size; x++) {
             VBox row = new VBox();
             for (int y = 0; y < size; y++) {
                 BoardCell c = new BoardCell(x, y, this);
-                c.setOnMouseClicked(handler);
+                if (isPlayer) {
+                    c.setOnMouseClicked(event -> {
+                        if (event.getButton() == MouseButton.PRIMARY) {
+                            BoardCell cell = (BoardCell) event.getSource();
+                            this.placeShip(new Ship((int) cell.getX(), (int) cell.getY(), this.controls.isSelectedDirectionVertical(), this.controls.getSelectedLength()));
+                        }
+                    });
+                }
                 row.getChildren().add(c);
             }
             rows.getChildren().add(row);
@@ -48,23 +64,20 @@ class Board extends Parent {
     }
 
     public void placeShip(Ship ship) {
-        if (checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
+        if (shipsOfLengthPlaced.get(ship.getLength()) <= 4 - ship.getLength() && checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
             if (ship.isVertical()) {
                 for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
                     BoardCell cell = getCell(ship.getX(), i);
                     cell.setShip(ship);
-                    cell.setFill(Color.WHITE);
-                    cell.setStroke(Color.GREEN);
                 }
             } else {
                 for (int i = ship.getX(); i < ship.getX() + ship.getLength(); i++) {
                     BoardCell cell = getCell(i, ship.getY());
                     cell.setShip(ship);
-                    cell.setFill(Color.WHITE);
-                    cell.setStroke(Color.GREEN);
                 }
             }
 
+            shipsOfLengthPlaced.put(ship.getLength(), shipsOfLengthPlaced.get(ship.getLength()) + 1);
             ships.add(ship);
         }
     }
@@ -83,8 +96,8 @@ class Board extends Parent {
     }
 
     private boolean checkShipOverlapping(Ship first, Ship second) {
-        int[] firstBorders = first.getShipBorders();
-        int[] secondBorders = second.getShipBorders();
+        int[] firstBorders = first.getBoundaries();
+        int[] secondBorders = second.getBoundaries();
 
         //checking overlapping of ships or areas around them
         return firstBorders[0] < secondBorders[2] && firstBorders[2] > secondBorders[0] &&

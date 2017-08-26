@@ -3,19 +3,25 @@ package ru.stolpner;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-class BoardCell extends Rectangle {
+public class BoardCell extends Rectangle {
 
-    private Board board;
     private Ship ship;
-    int x, y;
+    private Board board;
 
-    BoardCell(int x, int y, Board board) {
-        super(30, 30);
-        this.x = x;
-        this.y = y;
+    public BoardCell(int x, int y, Board board) {
+        super(x, y, 30, 30);
         this.board = board;
-        setFill(Color.LIGHTGRAY);
-        setStroke(Color.BLACK);
+        this.resetColors();
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
+        setFill(Color.WHITE);
+        setStroke(Color.GREEN);
     }
 
     public Board getBoard() {
@@ -26,11 +32,12 @@ class BoardCell extends Rectangle {
         this.board = board;
     }
 
-    public Ship getShip() {
-        return ship;
+    public void resetColors() {
+        setFill(Color.LIGHTGRAY);
+        setStroke(Color.BLACK);
     }
 
-    public void setShip(Ship ship) {
-        this.ship = ship;
+    public void setHitColor() {
+        setFill(Color.RED);
     }
 }

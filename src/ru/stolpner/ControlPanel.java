@@ -1,64 +1,68 @@
 package ru.stolpner;
 
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.HashMap;
 import java.util.List;
 
-class ControlPanel extends Parent {
+public class ControlPanel extends Parent {
 
-    private VBox shipModels = new VBox();
-    private int selectedShipModel = 0;
+    private VBox ships = new VBox();
+
+    private int selectedLength = 0;
+    private boolean isSelectedDirectionVertical = true;
 
     public ControlPanel() {
-
         for (int i = 0; i < 4; i++) {
-            HBox shipModel = new HBox();
-            shipModel.getChildren().add(new Text("Available: " + (i + 1)));
+            HBox ship = new HBox();
+            ship.setPadding(new Insets(30, 0, 0, 0));
+            ship.getChildren().add(new Text("Available: " + (i + 1)));
             for (int j = 0; j < 4 - i; j++) {
-                ControlPanelCell c = new ControlPanelCell(i, j, this);
+                ControlPanelCell c = new ControlPanelCell(4 - i, j, this);
                 c.setOnMouseClicked(event -> {
                     if (event.getButton() == MouseButton.PRIMARY) {
                         ControlPanelCell cell = (ControlPanelCell) event.getSource();
-                        selectShipModel(cell.getShipModel());
+                        selectShipLength(cell.getShipLength());
                     }
                 });
-                shipModel.getChildren().add(c);
+                ship.getChildren().add(c);
             }
-            shipModel.setPadding(new Insets(30, 0, 0, 0));
-            shipModels.getChildren().add(shipModel);
+            ships.getChildren().add(ship);
         }
-        getChildren().add(shipModels);
-        selectShipModel(0);
+        getChildren().add(ships);
+        selectShipLength(4);
     }
 
-    public int getSelectedShipLength() {
-        return 4 - selectedShipModel;
+    public int getSelectedLength() {
+        return selectedLength;
     }
 
-    private void selectShipModel(int shipModel) {
-        clearSelection();
-        selectedShipModel = shipModel;
+    public boolean isSelectedDirectionVertical() {
+        return isSelectedDirectionVertical;
+    }
 
-        List<Node> selectedShipNodes = ((HBox) shipModels.getChildren().get(shipModel)).getChildren();
-        for (int i = 0; i < 4 - shipModel; i++) {
+    private void selectShipLength(int shipLength) {
+        if (this.selectedLength == shipLength) return;
+        if (this.selectedLength != 0 ) clearSelection();
+
+        this.selectedLength = shipLength;
+        List<Node> selectedShipNodes = ((HBox) ships.getChildren().get(4 - selectedLength)).getChildren();
+        for (int i = 0; i < shipLength; i++) {
             ControlPanelCell c = (ControlPanelCell) selectedShipNodes.get(i + 1);      //cause Text is 0 element in row
-            c.setFill(Color.BLUE);
+            c.colorSelected();
         }
     }
 
     private void clearSelection() {
-        List<Node> selectedShipNodes = ((HBox) shipModels.getChildren().get(selectedShipModel)).getChildren();
-        for (int j = 0; j < 4 - selectedShipModel; j++) {
-            ControlPanelCell c = (ControlPanelCell) selectedShipNodes.get(j + 1);      //cause Text is 0 element in row
+        List<Node> selectedShipNodes = ((HBox) ships.getChildren().get(4 - selectedLength)).getChildren();
+        for (int i = 0; i < selectedLength; i++) {
+            ControlPanelCell c = (ControlPanelCell) selectedShipNodes.get(i + 1);      //cause Text is 0 element in row
             c.resetColors();
         }
     }

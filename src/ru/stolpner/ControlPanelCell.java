@@ -3,19 +3,18 @@ package ru.stolpner;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-class ControlPanelCell extends Rectangle {
+public class ControlPanelCell extends Rectangle {
 
     private ControlPanel controlPanel;
-    int shipModel;
-    int shipCell;
+    private int shipLength;
+    private int cellNumber;
 
-    ControlPanelCell(int shipModel, int shipCell, ControlPanel panel) {
+    public ControlPanelCell(int shipLength, int cellNumber, ControlPanel panel) {
         super(30, 30);
-        this.shipModel = shipModel;
-        this.shipCell = shipCell;
+        this.shipLength = shipLength;
+        this.cellNumber = cellNumber;
         this.controlPanel = panel;
-        setFill(Color.LIGHTGRAY);
-        setStroke(Color.BLACK);
+        this.resetColors();
     }
 
     public ControlPanel getControlPanel() {
@@ -26,24 +25,28 @@ class ControlPanelCell extends Rectangle {
         this.controlPanel = controlPanel;
     }
 
-    public int getShipModel() {
-        return shipModel;
+    public int getShipLength() {
+        return shipLength;
     }
 
-    public void setShipModel(int shipModel) {
-        this.shipModel = shipModel;
+    public void setShipLength(int shipLength) {
+        this.shipLength = shipLength;
     }
 
-    public int getShipCell() {
-        return shipCell;
+    public int getCellNumber() {
+        return cellNumber;
     }
 
-    public void setShipCell(int shipCell) {
-        this.shipCell = shipCell;
+    public void setCellNumber(int cellNumber) {
+        this.cellNumber = cellNumber;
     }
 
     public void resetColors() {
         setFill(Color.LIGHTGRAY);
         setStroke(Color.BLACK);
+    }
+
+    public void colorSelected() {
+        setFill(Color.BLUE);
     }
 }

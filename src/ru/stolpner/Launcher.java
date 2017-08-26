@@ -13,9 +13,9 @@ public class Launcher extends Application {
     private ControlPanel controlPanel;
     private Board playerBoard;
 
-    //TODO: 1) finish controls and ship placing 2) change colors
-    //TODO: 3) refactor classes, names, methods, packages, architecture, idea suggestions, cell - > OOD
-    //TODO: 4) work on  hits
+    //TODO: 1) refactor all, polish controls and ship placing
+    //TODO: 2) add enemy board, ship auto placing (visible)
+    //TODO: 3) work on hits (place on my board, shoot at enemy board)
     public static void main(String[] args) {
         launch(args);
     }

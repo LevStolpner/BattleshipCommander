@@ -16,8 +16,10 @@ public class Launcher extends Application {
     private ControlPanel controlPanel;
     private Board playerBoard, computerBoard;
 
-    //TODO: 1) computer ship auto placing (visible)
-    //TODO: 2) work on hits (place on my board, shoot at enemy board)
+    //TODO: 1) separate placing part from shooting part (mark ships in controls when placed, better looking/more useful controls, visual display of game stage)
+    //TODO: 2) when ships of length are all placed, jump to another model and make previous unselectable (if no more ships of type can be placed)
+    //TODO: 3) refactoring
+    //TODO: 4) work on hits (place on my board, shoot at enemy board)
     public static void main(String[] args) {
         launch(args);
     }
@@ -37,7 +39,7 @@ public class Launcher extends Application {
 
         controlPanel = new ControlPanel();
         playerBoard = new Board(true, controlPanel);
-        computerBoard = new Board(false, controlPanel);
+        computerBoard = new Board(false, null);
 
         HBox controls = new HBox(controlPanel);
         controls.setPadding(new Insets(0, 0, 0, 50));

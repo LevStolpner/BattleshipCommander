@@ -52,22 +52,23 @@ public class Board extends Parent {
     }
 
     private void autoPlaceShips() {
-        List<Ship> result = new ArrayList<>();
-        result.add(new Ship(3, 9, false, 4));
-        result.add(new Ship(7, 3, false, 3));
-        result.add(new Ship(3, 7, false, 3));
-        result.add(new Ship(4, 1, true, 2));
-        result.add(new Ship(8, 1, false, 2));
-        result.add(new Ship(8, 7, true, 2));
-        result.add(new Ship(6, 0, true, 1));
-        result.add(new Ship(0, 4, true, 1));
-        result.add(new Ship(1, 6, true, 1));
-        result.add(new Ship(9, 5, true, 1));
-
-        result.forEach(this::placeShip);
+        int len = 4;
+        int x = (int) (Math.random() * 10);
+        int y = (int) (Math.random() * 10);
+        boolean vert = Math.random() < 0.5;
+        while (len > 0) {
+            for (int j = 0; j <= 4 - len; j++) {
+                while (!placeShip(new Ship(x, y, vert, len))) {
+                    x = (int) (Math.random() * 10);
+                    y = (int) (Math.random() * 10);
+                    vert = Math.random() < 0.5;
+                }
+            }
+            len--;
+        }
     }
 
-    private void placeShip(Ship ship) {
+    private boolean placeShip(Ship ship) {
         if (shipsOfLengthPlaced.get(ship.getLength()) <= 4 - ship.getLength() && checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
             if (ship.isVertical()) {
                 for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
@@ -83,7 +84,10 @@ public class Board extends Parent {
 
             shipsOfLengthPlaced.put(ship.getLength(), shipsOfLengthPlaced.get(ship.getLength()) + 1);
             ships.add(ship);
+            return true;
         }
+
+        return false;
     }
 
     private boolean checkShipCoordinates(Ship ship) {
@@ -110,6 +114,6 @@ public class Board extends Parent {
     }
 
     private BoardCell getCell(int x, int y) {
-        return (BoardCell)((VBox)rows.getChildren().get(x)).getChildren().get(y);
+        return (BoardCell) ((VBox) rows.getChildren().get(x)).getChildren().get(y);
     }
 }

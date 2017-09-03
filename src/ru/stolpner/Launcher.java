@@ -4,8 +4,11 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Launcher extends Application {
@@ -32,6 +35,7 @@ public class Launcher extends Application {
 
     private Scene createScene() {
         BorderPane root = new BorderPane();
+        root.setBackground(new Background(new BackgroundFill(Color.BURLYWOOD, null, null)));
 
         controlPanel = new ControlPanel();
         playerBoard = new Board(true, controlPanel);

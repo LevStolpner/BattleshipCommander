@@ -20,8 +20,8 @@ public class BoardCell extends Rectangle {
 
     public void setShip(Ship ship) {
         this.ship = ship;
-        setFill(Color.WHITE);
-        setStroke(Color.GREEN);
+        setFill(Color.LIGHTSTEELBLUE);
+        setStroke(Color.BLACK);
     }
 
     public Board getBoard() {
@@ -33,7 +33,7 @@ public class BoardCell extends Rectangle {
     }
 
     public void resetColors() {
-        setFill(Color.LIGHTGRAY);
+        setFill(Color.STEELBLUE);
         setStroke(Color.BLACK);
     }
 

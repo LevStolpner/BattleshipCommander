@@ -42,11 +42,11 @@ public class ControlPanelCell extends Rectangle {
     }
 
     public void resetColors() {
-        setFill(Color.LIGHTGRAY);
+        setFill(Color.LIGHTSTEELBLUE);
         setStroke(Color.BLACK);
     }
 
     public void colorSelected() {
-        setFill(Color.BLUE);
+        setFill(Color.YELLOWGREEN);
     }
 }

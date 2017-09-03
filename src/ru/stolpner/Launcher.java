@@ -11,11 +11,12 @@ import javafx.stage.Stage;
 public class Launcher extends Application {
 
     private ControlPanel controlPanel;
-    private Board playerBoard;
+    private Board playerBoard, computerBoard;
 
     //TODO: 1) refactor all, polish controls and ship placing
     //TODO: 2) add enemy board, ship auto placing (visible)
-    //TODO: 3) work on hits (place on my board, shoot at enemy board)
+    //TODO: 3) think about right colors/images
+    //TODO: 4) work on hits (place on my board, shoot at enemy board)
     public static void main(String[] args) {
         launch(args);
     }
@@ -23,7 +24,7 @@ public class Launcher extends Application {
     public void start(Stage stage) {
         stage.setTitle("Battleship Commander");
         stage.setHeight(400);
-        stage.setWidth(800);
+        stage.setWidth(1000);
         stage.setScene(createScene());
         stage.setResizable(false);
         stage.show();
@@ -34,13 +35,14 @@ public class Launcher extends Application {
 
         controlPanel = new ControlPanel();
         playerBoard = new Board(true, controlPanel);
+        computerBoard = new Board(false, controlPanel);
 
         HBox controls = new HBox(controlPanel);
         controls.setPadding(new Insets(0, 0, 0, 50));
         controls.setAlignment(Pos.CENTER);
         root.setLeft(controls);
 
-        HBox board = new HBox(playerBoard);
+        HBox board = new HBox(50, playerBoard, computerBoard);
         board.setAlignment(Pos.CENTER);
         root.setCenter(board);
 

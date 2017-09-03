@@ -45,9 +45,13 @@ public class Board extends Parent {
         getChildren().add(rows);
 
         this.ships = new ArrayList<>();
+
+        if (!isPlayer) {
+            this.autoPlaceShips();
+        }
     }
 
-    public void autoPlaceShips() {
+    private void autoPlaceShips() {
         List<Ship> result = new ArrayList<>();
         result.add(new Ship(3, 9, false, 4));
         result.add(new Ship(7, 3, false, 3));
@@ -63,7 +67,7 @@ public class Board extends Parent {
         result.forEach(this::placeShip);
     }
 
-    public void placeShip(Ship ship) {
+    private void placeShip(Ship ship) {
         if (shipsOfLengthPlaced.get(ship.getLength()) <= 4 - ship.getLength() && checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
             if (ship.isVertical()) {
                 for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
@@ -89,6 +93,7 @@ public class Board extends Parent {
     }
 
     private boolean isPlaceAvailable(Ship newShip) {
+        if (ships == null) return true;
         for (Ship placedShip : ships) {
             if (checkShipOverlapping(newShip, placedShip)) return false;
         }

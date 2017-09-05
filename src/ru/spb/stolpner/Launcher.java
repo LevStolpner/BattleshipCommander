@@ -16,10 +16,8 @@ public class Launcher extends Application {
     private ControlPanel controlPanel;
     private Board playerBoard, computerBoard;
 
-    //TODO: 1) separate placing part from shooting part (mark ships in controls when placed, better looking/more useful controls, visual display of game stage)
-    //TODO: 2) when ships of length are all placed, jump to another model and make previous unselectable (if no more ships of type can be placed)
-    //TODO: 3) refactoring
-    //TODO: 4) work on hits (place on my board, shoot at enemy board)
+    //TODO: 1) separate placing part from shooting part, and create moving turns
+    //TODO: 2) work on hits (shooting stage of the game)
     public static void main(String[] args) {
         launch(args);
     }

@@ -1,4 +1,4 @@
-package ru.stolpner;
+package ru.spb.stolpner;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

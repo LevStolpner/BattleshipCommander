@@ -1,4 +1,4 @@
-package ru.stolpner;
+package ru.spb.stolpner;
 
 public class Ship {
 

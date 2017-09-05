@@ -1,4 +1,4 @@
-package ru.stolpner;
+package ru.spb.stolpner;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

@@ -17,6 +17,7 @@ public class Board extends Parent {
     private List<Ship> ships;
     private HashMap<Integer, Integer> shipsOfLengthPlaced = new HashMap<>(4);
     private ControlPanel controls;
+    private boolean shootingStage = false;
 
     public Board(boolean isPlayer, ControlPanel controls) {
         this.controls = controls;
@@ -29,14 +30,15 @@ public class Board extends Parent {
             VBox row = new VBox();
             for (int y = 0; y < size; y++) {
                 BoardCell c = new BoardCell(x, y, this);
-                if (isPlayer) {
-                    c.setOnMouseClicked(event -> {
-                        if (event.getButton() == MouseButton.PRIMARY) {
-                            BoardCell cell = (BoardCell) event.getSource();
-                            this.placeShip(new Ship((int) cell.getX(), (int) cell.getY(), this.controls.isSelectedDirectionVertical(), this.controls.getSelectedLength()));
-                        }
-                    });
-                }
+                c.setOnMouseClicked(event -> {
+                    BoardCell cell = (BoardCell) event.getSource();
+                    if (isPlayer && !shootingStage) {
+                        this.placeShip(new Ship((int) cell.getX(), (int) cell.getY(), this.controls.isSelectedDirectionVertical(), this.controls.getSelectedLength()));
+                    }
+                    if (!isPlayer && shootingStage) {
+                        this.shoot((int) cell.getX(), (int) cell.getY());
+                    }
+                });
                 row.getChildren().add(c);
             }
             rows.getChildren().add(row);
@@ -47,6 +49,40 @@ public class Board extends Parent {
 
         if (!isPlayer) {
             this.autoPlaceShips();
+        }
+    }
+
+    private boolean placeShip(Ship ship) {
+        if (shipsOfLengthPlaced.get(ship.getLength()) <= 4 - ship.getLength() && checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
+            if (ship.isVertical()) {
+                for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
+                    BoardCell cell = getCell(ship.getX(), i);
+                    cell.setShip(ship);
+                }
+            } else {
+                for (int i = ship.getX(); i < ship.getX() + ship.getLength(); i++) {
+                    BoardCell cell = getCell(i, ship.getY());
+                    cell.setShip(ship);
+                }
+            }
+
+            shipsOfLengthPlaced.put(ship.getLength(), shipsOfLengthPlaced.get(ship.getLength()) + 1);
+            ships.add(ship);
+            if (ships.size() == 10) {
+                shootingStage = true;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    private void shoot(int x, int y) {
+        BoardCell cell = getCell(x, y);
+        if (cell.getShip() != null) {
+            cell.setHitColor();
+        } else {
+            cell.setMissColor();
         }
     }
 
@@ -67,26 +103,8 @@ public class Board extends Parent {
         }
     }
 
-    private boolean placeShip(Ship ship) {
-        if (shipsOfLengthPlaced.get(ship.getLength()) <= 4 - ship.getLength() && checkShipCoordinates(ship) && isPlaceAvailable(ship)) {
-            if (ship.isVertical()) {
-                for (int i = ship.getY(); i < ship.getY() + ship.getLength(); i++) {
-                    BoardCell cell = getCell(ship.getX(), i);
-                    cell.setShip(ship);
-                }
-            } else {
-                for (int i = ship.getX(); i < ship.getX() + ship.getLength(); i++) {
-                    BoardCell cell = getCell(i, ship.getY());
-                    cell.setShip(ship);
-                }
-            }
-
-            shipsOfLengthPlaced.put(ship.getLength(), shipsOfLengthPlaced.get(ship.getLength()) + 1);
-            ships.add(ship);
-            return true;
-        }
-
-        return false;
+    private BoardCell getCell(int x, int y) {
+        return (BoardCell) ((VBox) rows.getChildren().get(x)).getChildren().get(y);
     }
 
     private boolean checkShipCoordinates(Ship ship) {
@@ -110,9 +128,5 @@ public class Board extends Parent {
         //checking overlapping of ships or areas around them
         return firstBorders[0] < secondBorders[2] && firstBorders[2] > secondBorders[0] &&
                 firstBorders[1] < secondBorders[3] && firstBorders[3] > secondBorders[1];
-    }
-
-    private BoardCell getCell(int x, int y) {
-        return (BoardCell) ((VBox) rows.getChildren().get(x)).getChildren().get(y);
     }
 }

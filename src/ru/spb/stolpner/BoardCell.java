@@ -40,4 +40,8 @@ public class BoardCell extends Rectangle {
     public void setHitColor() {
         setFill(Color.RED);
     }
+
+    public void setMissColor() {
+        setFill(Color.ORANGE);
+    }
 }

@@ -16,8 +16,11 @@ public class Launcher extends Application {
     private ControlPanel controlPanel;
     private Board playerBoard, computerBoard;
 
+    //TODO: 0) think about game model and program architecture, split into methods to understand functions, write javadoc
     //TODO: 1) separate placing part from shooting part, and create moving turns
     //TODO: 2) work on hits (shooting stage of the game)
+    //TODO: 3) refactor
+    //TODO: 4) testing while developing?
     public static void main(String[] args) {
         launch(args);
     }
